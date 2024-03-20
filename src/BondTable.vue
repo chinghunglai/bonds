@@ -9,7 +9,9 @@
 		</thead>
 		<tbody>
 			<tr v-for="bond in sortedList" :isin="bond.isin" :class="{'favorite': !$store.state.filter.favorite && $store.state.favorite[bond.isin]}">
-				<td class="focus" @click="onFocus({bond})">關注</td>
+				<td class="focus" @click="onFocus({bond})">
+					<span class="material-icons">done</span>
+				</td>
 				<td v-for="cso in csList" :class="[cso.class]" :key="cso.key" v-html="getValue({bond, cso, key: cso.key})"/>
 			</tr>
 		</tbody>
