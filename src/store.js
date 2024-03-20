@@ -75,12 +75,15 @@ export const store = createStore({
 		filter: {
 			minYear: null,
 			maxYear: null,
+			position: false,
 			favorite: false,
 			couponRate: null,
 			levelA: false,
 		},
 		// 我的最愛
 		favorite: {},
+		// 庫存
+		position: {},
 	},
 	getters:{
 	},	

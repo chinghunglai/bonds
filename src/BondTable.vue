@@ -1,6 +1,7 @@
 <template>
 	<table class="bond-table">
 		<thead>
+			<th>庫存<br><input type="checkbox" v-model="$store.state.filter.position" /></th>
 			<th>關注<br><input type="checkbox" v-model="$store.state.filter.favorite" /></th>
 			<th v-for="cso in csList" :key="cso.label" @click="onClick(cso.key)" :title="cso.title">
 				<div v-html="cso.label" />
@@ -8,9 +9,14 @@
 			</th>
 		</thead>
 		<tbody>
-			<tr v-for="bond in sortedList" :isin="bond.isin" :class="{'favorite': !$store.state.filter.favorite && $store.state.favorite[bond.isin]}">
-				<td class="focus" @click="onFocus({bond})">
-					<span class="material-icons">done</span>
+			<tr v-for="bond in sortedList" :isin="bond.isin" :class="{'favorite': !$store.state.filter.favorite && $store.state.favorite[bond.isin], 'position': !$store.state.filter.position && $store.state.position[bond.isin]}">
+				<!-- 加入庫存 -->
+				<td class="pointer" @click="onPosition({bond})">
+					<span class="material-icons eee position" :class="{selected: $store.state.position[bond.isin]}">favorite</span>
+				</td>
+				<!-- 加入關注 -->
+				<td class="pointer" @click="onFocus({bond})">
+					<span class="material-icons eee focus" :class="{selected: $store.state.favorite[bond.isin]}">done</span>
 				</td>
 				<td v-for="cso in csList" :class="[cso.class]" :key="cso.key" v-html="getValue({bond, cso, key: cso.key})"/>
 			</tr>
@@ -46,9 +52,12 @@ export default {
 			return val;
 		},
 		onFocus({bond}) {
-			// bond.fav = !bond.fav;
 			vuex.favorite[bond.isin] = !vuex.favorite[bond.isin];
 		},
+		onPosition({bond}) {
+			vuex.position[bond.isin] = !vuex.position[bond.isin];
+		},
+		
 	},
 	watch: {},
 	computed: {
@@ -114,15 +123,27 @@ th {
 	cursor: pointer;
 }
 tr:hover {
-	background-color: aqua;
+	background-color: #EEE;
 }
 tr.favorite {
 	background-color: yellow;
 }
+tr.position {
+	background-color: aqua;
+}
 td {
 	white-space: nowrap;
 }
-td.focus {
+td.pointer {
 	cursor: pointer;
+}
+.material-icons.eee {
+	color: #EEE;
+}
+.material-icons.position.selected {
+	color: green;
+}
+.material-icons.focus.selected {
+	color: green;
 }
 </style>
