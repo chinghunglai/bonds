@@ -11,6 +11,7 @@ function setNestedProperty(obj, path, value) {
 export const store = createStore({
 	state: {
 		dataSource: '金交債20240315',
+		dataSource2: '可質押債券清單202403',
 		// 元件容器
 		component: {},
 		// 債券資料
@@ -84,6 +85,8 @@ export const store = createStore({
 		favorite: {},
 		// 庫存
 		position: {},
+		// 要隱藏的欄位
+		hiddenColumn: {},
 	},
 	getters:{
 	},	
@@ -94,9 +97,16 @@ export const store = createStore({
 	}
 })
 
+// 排序欄
 syncWithLocalStorage(store, 'sortKey');
+// 排序方向
 syncWithLocalStorage(store, 'sortDesc');
+// 過濾條件
 syncWithLocalStorage(store, 'filter');
+// 我的最愛
 syncWithLocalStorage(store, 'favorite');
-
+// 庫存
+syncWithLocalStorage(store, 'position');
+// 隱藏欄位
+syncWithLocalStorage(store, 'hiddenColumn');
 export default store;

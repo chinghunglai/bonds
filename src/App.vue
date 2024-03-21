@@ -1,18 +1,21 @@
 <template>
 	<div class="flex-col FULL">
 		<div class="flex-row">
-			<div class="flex-row data-source">{{$store.state.dataSource}}</div>
-			<div class="pd2">
+			<div class="flex-col mg0d5">
+				<div class="flex-row data-source">{{$store.state.dataSource}}</div>
+				<div class="flex-row data-source">{{$store.state.dataSource2}}</div>
+			</div>
+			<div class="mg0d5">
 				<div>距到期年</div>
-				<input type="text" v-model="$store.state.filter.minYear" class="w30"/>
+				<input type="text" v-model="$store.state.filter.minYear" class="w30px"/>
 				<span>～</span>
-				<input type="text" v-model="$store.state.filter.maxYear" class="w30"/>
+				<input type="text" v-model="$store.state.filter.maxYear" class="w30px"/>
 			</div>
-			<div class="pd2">
+			<div class="mg0d5">
 				<div>票息</div>
-				大於<input type="text" v-model="$store.state.filter.couponRate" class="w30"/>
+				大於<input type="text" v-model="$store.state.filter.couponRate" class="w30px"/>
 			</div>
-			<div class="pd2 flex-col">
+			<div class="mg0d5 flex-col">
 				<div>信評</div>
 				<div class="flex-center"><span>包含Ａ</span><input type="checkbox" v-model="$store.state.filter.levelA" class=""/></div>
 			</div>
@@ -60,7 +63,7 @@ export default {
 
 <style scoped>
 .data-source {
-	font-size: 2em;
+	font-size: 1em;
 	margin-right: 1em;
 }
 input[type="checkbox"] {

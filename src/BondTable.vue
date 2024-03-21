@@ -1,12 +1,14 @@
 <template>
 	<table class="bond-table">
 		<thead>
-			<th>庫存<br><input type="checkbox" v-model="$store.state.filter.position" /></th>
-			<th>關注<br><input type="checkbox" v-model="$store.state.filter.favorite" /></th>
-			<th v-for="cso in csList" :key="cso.label" @click="onClick(cso.key)" :title="cso.title">
-				<div v-html="cso.label" />
-				<span v-if="$store.state.sortKey===cso.key">{{$store.state.sortDesc?'▲':'▼'}}</span>
-			</th>
+			<tr>
+				<th>庫存<br><input type="checkbox" v-model="$store.state.filter.position" /></th>
+				<th>關注<br><input type="checkbox" v-model="$store.state.filter.favorite" /></th>
+				<th v-for="cso in csList" :key="cso.label" @click="onClick(cso.key)" :title="cso.title">
+					<div v-html="cso.label" />
+					<span v-if="$store.state.sortKey===cso.key">{{$store.state.sortDesc?'▲':'▼'}}</span>
+				</th>
+			</tr>
 		</thead>
 		<tbody>
 			<tr v-for="bond in sortedList" :isin="bond.isin" :class="{'favorite': !$store.state.filter.favorite && $store.state.favorite[bond.isin], 'position': !$store.state.filter.position && $store.state.position[bond.isin]}">
@@ -45,10 +47,18 @@ export default {
 			let val = bond[cso.key];
 			if (val!=null && cso.isNumber && cso.toFixed != null)
 				val = Number(val).toFixed(cso.toFixed);
-			if (key === 'maxIncome')
-				val = '$'+val;
-			if (key === 'isin')
-				val = `<a href="https://www.boerse-frankfurt.de/bond/${bond.isin}" target="_blank">${bond.isin}</a>`;
+			switch(key) {
+				case 'maxIncome':
+					val = '$'+val;
+					break;
+				case 'isin':
+					val = `<a href="https://www.boerse-frankfurt.de/bond/${bond.isin}" target="_blank">${bond.isin}</a>`;
+					break;
+				case 'repaymentOrder':
+					if (val.indexOf('次順位')!==-1) val = '次順位';
+					else if (val.indexOf('優先無擔保')!==-1) val = '優先無擔保';
+					break;
+			}			
 			return val;
 		},
 		onFocus({bond}) {
@@ -81,6 +91,9 @@ export default {
 				// 到期年小於
 				if (result && vuex.filter.maxYear)
 					result = bond.endYear <= vuex.filter.maxYear;
+				// 庫存
+				if (result && vuex.filter.position)
+					result = vuex.position[bond.isin];
 				// 最愛
 				if (result && vuex.filter.favorite)
 					result = vuex.favorite[bond.isin];
@@ -138,7 +151,7 @@ td.pointer {
 	cursor: pointer;
 }
 .material-icons.eee {
-	color: #EEE;
+	color: #CCC;
 }
 .material-icons.position.selected {
 	color: green;
