@@ -45,14 +45,13 @@ export default {
 		},
 		getValue({bond, cso, key}) {
 			let val = bond[cso.key];
+			if (cso.isNumber && isNaN(val))
+				val = '';
 			if (val!=null && cso.isNumber && cso.toFixed != null)
 				val = Number(val).toFixed(cso.toFixed);
 			switch(key) {
 				case 'maxIncome':
 					val = '$'+val;
-					break;
-				case 'isin':
-					val = `<a href="https://www.boerse-frankfurt.de/bond/${bond.isin}" target="_blank">${bond.isin}</a>`;
 					break;
 				case 'repaymentOrder':
 					if (val.indexOf('次順位')!==-1) val = '次順位';
@@ -102,7 +101,7 @@ export default {
 					result = bond.couponRate >= vuex.filter.couponRate;
 				// A評級
 				if (result && vuex.filter.levelA) {
-					result = (bond.rating1+bond.rating2+bond.rating3).indexOf('A') !== -1;
+					result = (''+bond.rating1+bond.rating2+bond.rating3).indexOf('A') !== -1;
 				}
 				return result;
 			});

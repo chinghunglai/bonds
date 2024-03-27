@@ -16,15 +16,12 @@ export default {
 	components: {},
 	methods: {
 		findHead(totalObj) {
-			for (let key1 in totalObj) {
-				let bigObj = totalObj[key1];
-				for (let i=0; i<bigObj.length; i++) {
-					let bondString = JSON.stringify(bigObj[i]);
-					if (bondString.indexOf('發行人') !== -1 && bondString.indexOf('證券名稱') !== -1) {
-						return bigObj[i];
-					}
-				};
-			}
+			for (let i=0; i<totalObj.length; i++) {
+				let bondString = JSON.stringify(totalObj[i]);
+				if (bondString.indexOf('發行人') !== -1 && bondString.indexOf('證券名稱') !== -1) {
+					return totalObj[i];
+				}
+			};
 		},
 		analysisColumn(totalObj) {
 			let headObj = this.findHead(totalObj);
@@ -39,10 +36,11 @@ export default {
 					csObj.column = reverseHeadObj[headKey];
 				}
 			}
+			console.log('csMap: ', vuex.csMap);
 		},
 		// 更新填入 bond 資料
 		updateBond(bondObj) {
-			if (!bondObj || !bondObj.Column9)
+			if (!bondObj || !bondObj.Column11)
 				return;
 			let csMap = vuex.csMap;
 			let bond = {};
@@ -53,12 +51,16 @@ export default {
 					this.setValue({bond, key, val});
 				}
 			}
+			let isin = bondObj[csMap.isin.column];
+			if (!bond.isin || bond.isin==='產品代碼')
+				return;
+			vuex.bondMap[isin] = bond;
 			// 順位
 			bond.repaymentOrder = '' + bond.repaymentOrder;
 			if (bond.repaymentOrder.indexOf('主順位非優先受償無擔保')!==-1)
 				bond.repaymentOrder = '主順位';
-			// 無正常買賣價不往下算
-			if (bond.sellPrice < 0 || bond.buyPrice < 0)
+			// 不往下算
+			if (!bond.buyPrice || bond.sellPrice < 20 || bond.buyPrice < 20 || !bond.endYear)
 				return;
 			// 年折溢價
 			bond.plInOneYear = vuex.fn.$safeFloat((bond.buyPrice - 100) / bond.endYear * 2000);
@@ -72,18 +74,16 @@ export default {
 			bond.maxIncome =  vuex.fn.$safeFloat(bond.incomeInOneYear * bond.endYear);
 			// 最大收益%
 			bond.maxIncomeRate =  vuex.fn.$safeFloat(bond.incomeInOneYearRate * bond.endYear);
-			let isin = bondObj[csMap.isin.column];
-			vuex.bondMap[isin] = bond;
 		},
 		fetchDataSource() {
-			fetch(`./data/金交債0325原.json`).then(res=>res.json()).then(totalObj=>{
+			fetch(`./data/${vuex.dataSource}.json`).then(res=>res.json()).then(res=>{
+				let totalObj = res['熱門債券'];
+				console.log('totalObj.length: ', Object.keys(totalObj).length);
 				this.analysisColumn(totalObj);
-				for (let key1 in totalObj) {
-					let bigObj = totalObj[key1];
-					bigObj.forEach(bondObj=>{
-						this.updateBond(bondObj);
-					});
-				};
+				totalObj.forEach(bondObj=>{
+					this.updateBond(bondObj);
+				});
+				console.log('vuex.bondMap.length: ', Object.keys(vuex.bondMap).length);
 				this.fetchDataSource2();
 			});
 		},
@@ -95,7 +95,7 @@ export default {
 						let bond = vuex.bondMap[cols[0]];
 						if (bond) {
 							// 可貸成數
-							bond.loanRatio = cols.find(o=>o.indexOf('%')!==-1);
+							bond.loanRatio = parseFloat(cols.find(o=>o.indexOf('%')!==-1));
 							// 可貸成數百分比 (錯幣九折)
 							let availableLoadRatio = parseFloat(bond.loanRatio) * 0.9;
 							// 本金成數百分比
