@@ -19,6 +19,10 @@
 				<div>信評</div>
 				<div class="flex-center"><span>包含Ａ</span><input type="checkbox" v-model="$store.state.filter.levelA" class=""/></div>
 			</div>
+			<div class="mg0d5 flex-col">
+				<div>必須</div>
+				<div class="flex-center"><span>有買價</span><input type="checkbox" v-model="$store.state.filter.hasBuyPrice" class=""/></div>
+			</div>
 		</div>
 		<div class="flex-1 posr">
 			<div class="FULL scrolling-y">

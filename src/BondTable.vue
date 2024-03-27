@@ -100,9 +100,11 @@ export default {
 				if (result && vuex.filter.couponRate)
 					result = bond.couponRate >= vuex.filter.couponRate;
 				// A評級
-				if (result && vuex.filter.levelA) {
+				if (result && vuex.filter.levelA)
 					result = (''+bond.rating1+bond.rating2+bond.rating3).indexOf('A') !== -1;
-				}
+				// 要有買價
+				if (result && vuex.filter.hasBuyPrice)
+					result = !!bond.buyPrice;
 				return result;
 			});
 		},

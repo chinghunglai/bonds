@@ -74,12 +74,13 @@ export const store = createStore({
 		},
 		// 過濾條件
 		filter: {
-			minYear: null,
+			minYear: 5,
 			maxYear: null,
 			position: false,
 			favorite: false,
 			couponRate: null,
 			levelA: false,
+			hasBuyPrice: true,
 		},
 		// 我的最愛
 		favorite: {},
