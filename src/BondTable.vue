@@ -62,6 +62,8 @@ export default {
 		},
 		onFocus({bond}) {
 			vuex.favorite[bond.isin] = !vuex.favorite[bond.isin];
+			if (!vuex.favorite[bond.isin])
+				delete vuex.favorite[bond.isin];
 		},
 		onPosition({bond}) {
 			vuex.position[bond.isin] = !vuex.position[bond.isin];
@@ -128,6 +130,10 @@ export default {
 </script>
 
 <style scoped>
+thead {
+	position: sticky;
+	top: 0;
+}
 th {
 	white-space: nowrap;
 	text-align: center;

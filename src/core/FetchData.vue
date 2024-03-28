@@ -76,7 +76,7 @@ export default {
 			bond.maxIncomeRate =  vuex.fn.$safeFloat(bond.incomeInOneYearRate * bond.endYear);
 		},
 		fetchDataSource() {
-			fetch(`./data/${vuex.dataSource}.json`).then(res=>res.json()).then(res=>{
+			fetch(`./${vuex.isDvm?'dist/':''}data/${vuex.dataSource}.json`).then(res=>res.json()).then(res=>{
 				let totalObj = res['熱門債券'];
 				console.log('totalObj.length: ', Object.keys(totalObj).length);
 				this.analysisColumn(totalObj);
@@ -88,7 +88,7 @@ export default {
 			});
 		},
 		fetchDataSource2() {
-			fetch(`./data/${vuex.dataSource2}.txt`).then(res=>res.text()).then(res=>{
+			fetch(`./${vuex.isDvm?'dist/':''}data/${vuex.dataSource2}.txt`).then(res=>res.text()).then(res=>{
 				res.split('\n').forEach(line=>{
 					let cols = line.split(' ');
 					if (cols.length > 10) {
