@@ -98,16 +98,20 @@ export default {
 							bond.loanRatio = parseFloat(cols.find(o=>o.indexOf('%')!==-1));
 							// 可貸成數百分比 (錯幣九折)
 							let availableLoadRatio = parseFloat(bond.loanRatio) * 0.9;
-							// 本金成數百分比
-							let principalRatio = 100 - availableLoadRatio;
-							// 本金總金額
-							bond.principalTotal = bond.buyPrice * 2000 * principalRatio / 100;
+							// 可貸金額
+							let loadAmount = bond.sellPrice * 2000 * (availableLoadRatio / 100);
+							// 本金總金額 = 購買金額 - 可貸金額
+							bond.principalTotal = bond.buyPrice * 2000 - loadAmount;
 							// 年本金收益%
 							bond.capitalIncomeRate = vuex.fn.$safeFloat(bond.incomeInOneYear / bond.principalTotal * 100);
 							// 最大本金收益%
 							bond.maxCapitalIncomeRate = vuex.fn.$safeFloat(bond.maxIncome / bond.principalTotal * 100);
 							// 10年本金收益%
 							bond.capitalIncomeRate10Y = vuex.fn.$safeFloat(bond.capitalIncomeRate * Math.min(10, bond.endYear));
+							// 15年本金收益%
+							bond.capitalIncomeRate15Y = vuex.fn.$safeFloat(bond.capitalIncomeRate * Math.min(15, bond.endYear));
+							// 20年本金收益%
+							bond.capitalIncomeRate20Y = vuex.fn.$safeFloat(bond.capitalIncomeRate * Math.min(20, bond.endYear));
 						}
 					}
 				});

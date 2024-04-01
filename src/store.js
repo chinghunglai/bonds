@@ -40,7 +40,7 @@ export const store = createStore({
 			'couponRate': {label: '票息', head: '票息', isNumber: true, class: 'text-align-right'},
 			'couponCount': {label: '配息<br>頻率', head: '配息頻率', isNumber: true, class: 'text-align-center'},
 			'nextPaymentDate': {label: '下一配息日', head: '下一配息日', class: ''},
-			'riskLevel': {label: '風險等級', head: '風險等級', class: ''},
+			// 'riskLevel': {label: '風險等級', head: '風險等級', class: ''},
 			'repaymentOrder': {label: '償債順位', head: '償債順位', class: ''},
 			'loanRatio': {label: '可貸<br>成數%', isNumber: true, class: 'text-align-center'},
 			'incomeInOneYear': {label: '年<br>收益', isNumber: true, class: 'text-align-right', title: '票息x2000 - 買價x2000x借款利率 - 折溢價損益', toFixed: 0},
@@ -48,9 +48,11 @@ export const store = createStore({
 			'maxIncome': {label: '最大<br>收益', isNumber: true, class: 'text-align-right', title: '年收益 x 到期年', toFixed: 0},
 			'maxIncomeRate': {label: '最大<br>收益%', isNumber: true, class: 'text-align-right', title: '年收益% x 到期年', toFixed: 1},
 			'principalTotal': {label: '本金<br>金額', isNumber: true, class: 'text-align-right', title: '買價 x 2000 x (100-(可貸成數x錯幣0.9))', toFixed: 0},
-			'capitalIncomeRate': {label: '年本金<br>收益%', isNumber: true, class: 'text-align-right', title: '年收益 / 本金總金額 (%)', toFixed: 1},
-			'maxCapitalIncomeRate': {label: '最大本金<br>收益%', isNumber: true, class: 'text-align-right', title: '最大收益 / 本金總金額 (%)', toFixed: 1},
+			'capitalIncomeRate': {label: '每年本金<br>收益%', isNumber: true, class: 'text-align-right', title: '年收益 / 本金總金額 (%)', toFixed: 1},
 			'capitalIncomeRate10Y': {label: '10年本金<br>收益%', isNumber: true, class: 'text-align-right', title: '年本金收益% x 取小值(10,到期年)', toFixed: 1},
+			'capitalIncomeRate15Y': {label: '15年本金<br>收益%', isNumber: true, class: 'text-align-right', title: '年本金收益% x 取小值(15,到期年)', toFixed: 1},
+			'capitalIncomeRate20Y': {label: '20年本金<br>收益%', isNumber: true, class: 'text-align-right', title: '年本金收益% x 取小值(20,到期年)', toFixed: 1},
+			'maxCapitalIncomeRate': {label: '最大本金<br>收益%', isNumber: true, class: 'text-align-right', title: '最大收益 / 本金總金額 (%)', toFixed: 1},
 		},
 		csList: [],
 		
@@ -76,6 +78,8 @@ export const store = createStore({
 		},
 		// 過濾條件
 		filter: {
+			minBP: null,
+			maxBP: null,
 			minYear: 5,
 			maxYear: null,
 			position: false,
@@ -83,6 +87,7 @@ export const store = createStore({
 			couponRate: null,
 			levelA: false,
 			hasBuyPrice: true,
+			onlyUSD: true,
 		},
 		// 我的最愛
 		favorite: {},

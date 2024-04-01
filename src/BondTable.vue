@@ -86,6 +86,12 @@ export default {
 		filteredList() {
 			return this.bondList.filter(bond=>{
 				let result = true;
+				// 買價大於
+				if (result && vuex.filter.minBP)
+					result = bond.buyPrice >= vuex.filter.minBP;
+				// 買價小於
+				if (result && vuex.filter.maxBP)
+					result = bond.buyPrice <= vuex.filter.maxBP;
 				// 到期年大於
 				if (result && vuex.filter.minYear)
 					result = bond.endYear >= vuex.filter.minYear;
@@ -107,6 +113,9 @@ export default {
 				// 要有買價
 				if (result && vuex.filter.hasBuyPrice)
 					result = !!bond.buyPrice;
+				// 僅限USD
+				if (result && vuex.filter.onlyUSD)
+					result = bond.currency==='USD';
 				return result;
 			});
 		},

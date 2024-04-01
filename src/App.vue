@@ -6,6 +6,12 @@
 				<div class="flex-row data-source">{{$store.state.dataSource2}}</div>
 			</div>
 			<div class="mg0d5">
+				<div>參考買價</div>
+				<input type="text" v-model="$store.state.filter.minBP" class="w30px"/>
+				<span>～</span>
+				<input type="text" v-model="$store.state.filter.maxBP" class="w30px"/>
+			</div>
+			<div class="mg0d5">
 				<div>距到期年</div>
 				<input type="text" v-model="$store.state.filter.minYear" class="w30px"/>
 				<span>～</span>
@@ -22,6 +28,10 @@
 			<div class="mg0d5 flex-col">
 				<div>必須</div>
 				<div class="flex-center"><span>有買價</span><input type="checkbox" v-model="$store.state.filter.hasBuyPrice" class=""/></div>
+			</div>
+			<div class="mg0d5 flex-col">
+				<div>幣別</div>
+				<div class="flex-center"><span>限USD</span><input type="checkbox" v-model="$store.state.filter.onlyUSD" class=""/></div>
 			</div>
 		</div>
 		<div class="flex-1 posr">
