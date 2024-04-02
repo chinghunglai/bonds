@@ -10,7 +10,7 @@ function setNestedProperty(obj, path, value) {
 
 export const store = createStore({
 	state: {
-		dataSource: '金交債20240328',
+		dataSource: '金交債20240402',
 		dataSource2: '可質押債券清單202403',
 		// 在開發機
 		isDvm: location.hostname === '127.0.0.1',
