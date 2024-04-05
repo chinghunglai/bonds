@@ -33,10 +33,13 @@
 				<div>幣別</div>
 				<div class="flex-center"><span>限USD</span><input type="checkbox" v-model="$store.state.filter.onlyUSD" class=""/></div>
 			</div>
+			<!-- 庫存模式 -->
+			<el-switch v-model="$store.state.positionMode" size="large" active-text="庫存" inactive-text="全部" />			
 		</div>
 		<div class="flex-1 posr">
 			<div class="FULL scrolling-y">
-				<BondTable/>
+				<BondTable v-if="!$store.state.positionMode"/>
+				<PositionTable v-if="$store.state.positionMode" />
 			</div>
 		</div>
 	</div>
@@ -47,9 +50,10 @@
 import packageObj from '/package.json';
 import FetchData from './core/FetchData.vue';
 import BondTable from './BondTable.vue';
+import PositionTable from './PositionTable.vue';
 
 export default {
-	components: {FetchData, BondTable},
+	components: {FetchData, BondTable, PositionTable},
 	data() {
 		return {
 		};
@@ -63,6 +67,12 @@ export default {
 			let obj = vuex.csMap[key];
 			obj.key = key;
 			vuex.csList.push(obj);
+		}
+		// positionCSMap -> positionCSList
+		for (let key in vuex.positionCSMap) {
+			let obj = vuex.positionCSMap[key];
+			obj.key = key;
+			vuex.positionCSList.push(obj);
 		}
 	},
 	mounted() {

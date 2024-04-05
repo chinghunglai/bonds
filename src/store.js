@@ -24,10 +24,11 @@ export const store = createStore({
 		sortKey: 'yield',
 		// 排序方向
 		sortDesc: false,
+		// 欄位設定表
 		csMap: {
 			'isin': {label: 'ISIN', head: '產品代碼', class: ''},
 			'comp': {label: '發行者', head: '發行人', class: ''},
-			'name': {label: '債券名稱', head: '證券名稱', class: ''},
+			'name': {label: '代號', head: '證券名稱', class: ''},
 			'currency': {label: '幣別', head: '幣別', class: ''},
 			'sellPrice': {label: '參考<br>賣價', head: '參考賣出價\n', isNumber: true, class: 'text-align-right'},
 			'buyPrice': {label: '參考<br>買價', head: '參考買入價\n', isNumber: true, class: 'text-align-right'},
@@ -54,7 +55,30 @@ export const store = createStore({
 			'capitalIncomeRate20Y': {label: '20年本金<br>收益%', isNumber: true, class: 'text-align-right', title: '年本金收益% x 取小值(20,到期年)', toFixed: 1},
 			'maxCapitalIncomeRate': {label: '最大本金<br>收益%', isNumber: true, class: 'text-align-right', title: '最大收益 / 本金總金額 (%)', toFixed: 1},
 		},
+		// 欄位設定陣列
 		csList: [],
+		
+		// 欄位設定表
+		positionCSMap: {
+			'isin': {label: 'ISIN', head: '產品代碼', class: ''},
+			'comp': {label: '發行者', head: '發行人', class: ''},
+			'name': {label: '代號', head: '證券名稱', class: ''},
+			'sellPrice': {label: '參考<br>賣價', head: '參考賣出價\n', isNumber: true, class: 'text-align-right'},
+			'redemptionYear': {label: '距買<br>回年', head: '距買\n回年', isNumber: true, class: 'text-align-right'},
+			'endYear': {label: '距到<br>期年', head: '距到\n期年', isNumber: true, class: 'text-align-right'},
+			'rating1': {label: '穆迪', head: '穆迪', class: 'text-align-center'},
+			'rating2': {label: '標普', head: '標普', class: 'text-align-center'},
+			'rating3': {label: '惠譽', head: '惠譽', class: 'text-align-center'},
+			'couponRate': {label: '票息', head: '票息', isNumber: true, class: 'text-align-right'},
+			'nextPaymentDate': {label: '下一配息日', head: '下一配息日', class: ''},
+			'repaymentOrder': {label: '償債順位', head: '償債順位', class: ''},
+			'loanRatio': {label: '可貸<br>成數%', isNumber: true, class: 'text-align-center'},
+			'incomeInOneYear': {label: '年<br>收益', isNumber: true, class: 'text-align-right', title: '票息x2000 - 買價x2000x借款利率 - 折溢價損益', toFixed: 0},
+			'incomeInOneYearRate': {label: '年<br>收益%', isNumber: true, class: 'text-align-right', title: '年收益 / (買價x2000) (%)', toFixed: 2},
+			'maxIncome': {label: '最大<br>收益', isNumber: true, class: 'text-align-right', title: '年收益 x 到期年', toFixed: 0},
+			'maxIncomeRate': {label: '最大<br>收益%', isNumber: true, class: 'text-align-right', title: '年收益% x 到期年', toFixed: 1},
+		},
+		positionCSList: [],
 		
 		fn: {
 			$safeFloat: (val, precision)=>{
@@ -95,6 +119,10 @@ export const store = createStore({
 		position: {},
 		// 要隱藏的欄位
 		hiddenColumn: {},
+		// 庫存模式
+		positionMode: false,
+		// 庫存明細
+		positionDetail: {},
 	},
 	getters:{
 	},	

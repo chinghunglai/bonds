@@ -20,7 +20,8 @@
 				<td class="pointer" @click="onFocus({bond})">
 					<span class="material-icons eee focus" :class="{selected: $store.state.favorite[bond.isin]}">done</span>
 				</td>
-				<td v-for="cso in csList" :class="[cso.class]" :key="cso.key" v-html="getValue({bond, cso, key: cso.key})"/>
+				<!-- 所有欄位 -->
+				<td v-for="cso in csList" :class="[cso.key, cso.class]" :key="cso.key" v-html="getValue({bond, cso, key: cso.key})"/>
 			</tr>
 		</tbody>
 	</table>
@@ -50,6 +51,12 @@ export default {
 			if (val!=null && cso.isNumber && cso.toFixed != null)
 				val = Number(val).toFixed(cso.toFixed);
 			switch(key) {
+				case 'comp':
+					val = `<div class="flex-1" title="${bond.name}">${val}</div>`;
+					break;
+				case 'name':
+					val = val.split(' ')[0];
+					break;
 				case 'maxIncome':
 					val = '$'+val;
 					break;
@@ -162,6 +169,11 @@ tr.position {
 }
 td {
 	white-space: nowrap;
+}
+td.comp {
+	max-width: 156px;
+    text-overflow: ellipsis;
+    overflow: hidden;	
 }
 td.pointer {
 	cursor: pointer;
