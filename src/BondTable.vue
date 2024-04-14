@@ -54,9 +54,9 @@ export default {
 				case 'comp':
 					val = `<div class="flex-1" title="${bond.name}">${val}</div>`;
 					break;
-				case 'name':
-					val = val.split(' ')[0];
-					break;
+				// case 'name':
+				// 	val = val.split(' ')[0];
+				// 	break;
 				case 'maxIncome':
 					val = '$'+val;
 					break;

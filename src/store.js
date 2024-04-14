@@ -10,7 +10,7 @@ function setNestedProperty(obj, path, value) {
 
 export const store = createStore({
 	state: {
-		dataSource: '金交債0409原始',
+		dataSource: '金交債0412',
 		dataSource2: '可質押債券清單202403',
 		// 在開發機
 		isDvm: location.hostname === '127.0.0.1',
@@ -33,8 +33,10 @@ export const store = createStore({
 			'sellPrice': {label: '參考<br>賣價', head: '參考賣出價\n', isNumber: true, class: 'text-align-right'},
 			'buyPrice': {label: '參考<br>買價', head: '參考買入價\n', isNumber: true, class: 'text-align-right'},
 			'yield': {label: '到期<br>殖利率', head: '參考到期殖利率', isNumber: true, class: 'text-align-right'},
+			'endDateStr': {label: '到期日', head: '到期日', class: ''},
 			'redemptionYear': {label: '距買<br>回年', head: '距買\n回年', isNumber: true, class: 'text-align-right'},
 			'endYear': {label: '距到<br>期年', head: '距到\n期年', isNumber: true, class: 'text-align-right'},
+			'remainingYears': {label: '$距到<br>期年', head: '$距到\n期年', isNumber: true, class: 'text-align-right'},
 			'rating1': {label: '穆迪', head: '穆迪', class: 'text-align-center'},
 			'rating2': {label: '標普', head: '標普', class: 'text-align-center'},
 			'rating3': {label: '惠譽', head: '惠譽', class: 'text-align-center'},

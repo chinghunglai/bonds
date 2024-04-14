@@ -38,6 +38,26 @@ export default {
 			}
 			console.log('csMap: ', vuex.csMap);
 		},
+		convertToDateObject(input) {
+			try {
+				// 提取日期部分
+				const datePart = input.match(/\d+\/\d+\/\d+/)[0];
+				// 分割日期為月、日、年
+				let [month, day, year] = datePart.split('/');
+				// 將年份從兩位數轉換為四位數
+				year = parseInt(year, 10) + 2000;
+				// 建立一個Date物件
+				const date = new Date(year, month - 1, day); // 月份從0開始計算，所以要減1
+				return date;
+			}catch(err){}
+		},
+		formatDate(date) {
+			if (!date) return;
+			const year = date.getFullYear();
+			const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份從0開始，所以要加1
+			const day = date.getDate().toString().padStart(2, '0');
+			return `${year}/${month}/${day}`;
+		},
 		// 更新填入 bond 資料
 		updateBond(bondObj) {
 			if (!bondObj || !bondObj.Column11)
@@ -55,6 +75,14 @@ export default {
 			if (!bond.isin || bond.isin==='產品代碼')
 				return;
 			vuex.bondMap[isin] = bond;
+			// 到期日 date 物件
+			bond.endDate = this.convertToDateObject(bond.name);
+			// 到期日 "2024/04/14" 格式
+			bond.endDateStr = this.formatDate(bond.endDate);
+			// 解析出來的剩餘年
+			bond.remainingYears = (bond.endDate - new Date()) / (1000 * 60 * 60 * 24 * 365);
+			// 距到期年
+			bond.endYear = bond.endYear || bond.remainingYears;
 			// 順位
 			bond.repaymentOrder = '' + bond.repaymentOrder;
 			if (bond.repaymentOrder.indexOf('主順位非優先受償無擔保')!==-1)
