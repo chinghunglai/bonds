@@ -87,11 +87,13 @@ export default {
 			bond.repaymentOrder = '' + bond.repaymentOrder;
 			if (bond.repaymentOrder.indexOf('主順位非優先受償無擔保')!==-1)
 				bond.repaymentOrder = '主順位';
+			// 用來往下算的剩餘年
+			bond.useYear = bond.redemptionYear || bond.endYear;
 			// 不往下算
-			if (!bond.buyPrice || bond.sellPrice < 20 || bond.buyPrice < 20 || !bond.endYear)
+			if (!bond.buyPrice || bond.sellPrice < 20 || bond.buyPrice < 20 || !bond.useYear)
 				return;
 			// 年折溢價
-			bond.plInOneYear = vuex.fn.$safeFloat((bond.buyPrice - 100) / bond.endYear * 2000);
+			bond.plInOneYear = vuex.fn.$safeFloat((bond.buyPrice - 100) / bond.useYear * 2000);
 			// 年收益
 			bond.incomeInOneYear = vuex.fn.$safeFloat(Number(bond.couponRate)*2000 - bond.buyPrice*2000*vuex.lendingRates/100 - bond.plInOneYear);
 			// 年收益負值不往下算
@@ -99,9 +101,9 @@ export default {
 			// 年收益率
 			bond.incomeInOneYearRate =  vuex.fn.$safeFloat(bond.incomeInOneYear / (bond.buyPrice * 2000) * 100);
 			// 最大收益
-			bond.maxIncome =  vuex.fn.$safeFloat(bond.incomeInOneYear * bond.endYear);
+			bond.maxIncome =  vuex.fn.$safeFloat(bond.incomeInOneYear * bond.useYear);
 			// 最大收益%
-			bond.maxIncomeRate =  vuex.fn.$safeFloat(bond.incomeInOneYearRate * bond.endYear);
+			bond.maxIncomeRate =  vuex.fn.$safeFloat(bond.incomeInOneYearRate * bond.useYear);
 		},
 		fetchDataSource() {
 			fetch(`./${vuex.isDvm?'dist/':''}data/${vuex.dataSource}.json`).then(res=>res.json()).then(res=>{
@@ -135,11 +137,11 @@ export default {
 							// 最大本金收益%
 							bond.maxCapitalIncomeRate = vuex.fn.$safeFloat(bond.maxIncome / bond.principalTotal * 100);
 							// 10年本金收益%
-							bond.capitalIncomeRate10Y = vuex.fn.$safeFloat(bond.capitalIncomeRate * Math.min(10, bond.endYear));
+							bond.capitalIncomeRate10Y = vuex.fn.$safeFloat(bond.capitalIncomeRate * Math.min(10, bond.useYear));
 							// 15年本金收益%
-							bond.capitalIncomeRate15Y = vuex.fn.$safeFloat(bond.capitalIncomeRate * Math.min(15, bond.endYear));
+							bond.capitalIncomeRate15Y = vuex.fn.$safeFloat(bond.capitalIncomeRate * Math.min(15, bond.useYear));
 							// 20年本金收益%
-							bond.capitalIncomeRate20Y = vuex.fn.$safeFloat(bond.capitalIncomeRate * Math.min(20, bond.endYear));
+							bond.capitalIncomeRate20Y = vuex.fn.$safeFloat(bond.capitalIncomeRate * Math.min(20, bond.useYear));
 						}
 					}
 				});
