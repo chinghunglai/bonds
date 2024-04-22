@@ -52,7 +52,11 @@ export default {
 				val = Number(val).toFixed(cso.toFixed);
 			switch(key) {
 				case 'comp':
-					val = `<div class="flex-1" title="${bond.name}">${val}</div>`;
+					val = val.replace('有限責任公司', '');
+					val = val.replace('股份有限公司', '');
+					val = val.replace('有限公司', '');
+					val = val.replace('集團公司', '');
+					val = `<div class="flex-1 ellipsis" title="${bond.comp} ${bond.name}">${val}</div>`;
 					break;
 				case 'name':
 					val = val.split(' ')[0];
@@ -60,12 +64,9 @@ export default {
 				case 'endYear':
 					val = val ? val.toFixed(3) : val;
 					break;
-				case 'maxIncome':
-					val = '$'+val;
-					break;
 				case 'repaymentOrder':
 					if (val.indexOf('次順位')!==-1) val = '次順位';
-					else if (val.indexOf('優先無擔保')!==-1) val = '優先無擔保';
+					else if (val.indexOf('優先無擔保')!==-1) val = '優先';
 					break;
 			}			
 			return val;
@@ -158,8 +159,9 @@ th {
 	text-align: center;
 	background-color: #999;
 	color: white;
-	padding: 0.2em 0.5em;
+	padding: 0.1em 0;
 	cursor: pointer;
+	font-size: 10px;
 }
 tr:hover {
 	background-color: #EEE;
@@ -174,9 +176,9 @@ td {
 	white-space: nowrap;
 }
 td.comp {
-	max-width: 156px;
+	max-width: 102px;
     text-overflow: ellipsis;
-    overflow: hidden;	
+    overflow: hidden;
 }
 td.pointer {
 	cursor: pointer;

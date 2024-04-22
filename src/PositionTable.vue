@@ -47,6 +47,9 @@ export default {
 				case 'name':
 					val = val.split(' ')[0];
 					break;
+				case 'endYear':
+					val = val ? val.toFixed(3) : val;
+					break;
 				case 'maxIncome':
 					val = '$'+val;
 					break;
