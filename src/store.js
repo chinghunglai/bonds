@@ -10,7 +10,7 @@ function setNestedProperty(obj, path, value) {
 
 export const store = createStore({
 	state: {
-		dataSource: '金交債0418原',
+		dataSource: '金交債0422原',
 		dataSource2: '可質押債券清單202403',
 		// 在開發機
 		isDvm: location.hostname === '127.0.0.1',
@@ -19,7 +19,7 @@ export const store = createStore({
 		// 債券資料
 		bondMap: {},
 		// 貸款利率
-		lendingRates: 2.02,
+		lendingRates: 2.15,
 		// 排序欄位
 		sortKey: 'yield',
 		// 排序方向
