@@ -14,6 +14,7 @@ export const store = createStore({
 		dataSource2: '可質押債券清單202403',
 		// 在開發機
 		isDvm: location.hostname === '127.0.0.1',
+		isMobile: window.innerWidth < 1600,
 		// 元件容器
 		component: {},
 		// 債券資料
@@ -50,7 +51,7 @@ export const store = createStore({
 			'incomeInOneYearRate': {label: '年<br>收益%', isNumber: true, class: 'text-align-right', title: '年收益 / (買價x2000) (%)', toFixed: 2},
 			'maxIncome': {label: '最大<br>收益', isNumber: true, class: 'text-align-right', title: '年收益 x 到期年', toFixed: 0, ezColumn: true},
 			'maxIncomeRate': {label: '最大<br>收益%', isNumber: true, class: 'text-align-right', title: '年收益% x 到期年', toFixed: 1},
-			'principalTotal': {label: '本金<br>金額', isNumber: true, class: 'text-align-right', title: '買價 x 2000 x (100-(可貸成數x錯幣0.9))', toFixed: 0, ezColumn: true},
+			'principalTotal': {label: '本金<br>金額', isNumber: true, class: 'text-align-right', title: '購買金額(買價x2000) - 可貸金額(賣價x2000x可貸乘數x錯幣0.9)', toFixed: 0, ezColumn: true},
 			'capitalIncomeRate': {label: '每年本金<br>收益%', isNumber: true, class: 'text-align-right', title: '年收益 / 本金總金額 (%)', toFixed: 1},
 			'capitalIncomeRate10Y': {label: '10年本金<br>收益%', isNumber: true, class: 'text-align-right', title: '年本金收益% x 取小值(10,到期年)', toFixed: 1, ezColumn: true},
 			// 'capitalIncomeRate15Y': {label: '15年本金<br>收益%', isNumber: true, class: 'text-align-right', title: '年本金收益% x 取小值(15,到期年)', toFixed: 1},

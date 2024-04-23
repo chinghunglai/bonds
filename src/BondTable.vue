@@ -150,6 +150,9 @@ export default {
 </script>
 
 <style scoped>
+table {
+	width: 100%;
+}
 thead {
 	position: sticky;
 	top: 0;
@@ -161,6 +164,8 @@ th {
 	color: white;
 	padding: 0.1em 0;
 	cursor: pointer;
+}
+.mobile th {
 	font-size: 10px;
 }
 tr:hover {
@@ -176,9 +181,12 @@ td {
 	white-space: nowrap;
 }
 td.comp {
-	max-width: 102px;
+	max-width: 200px;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+.mobile td.comp {
+	max-width: 102px;
 }
 td.pointer {
 	cursor: pointer;

@@ -1,5 +1,5 @@
 <template>
-	<div class="flex-col FULL">
+	<div class="flex-col FULL" :class="{'mobile': $store.state.isMobile}">
 		<div class="tool-bar flex-row" v-show="displayToolbar">
 			<div class="flex-col mg0d5">
 				<div class="flex-row data-source">{{$store.state.dataSource}}</div>
